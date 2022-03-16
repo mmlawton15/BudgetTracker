@@ -6,7 +6,7 @@ const request = indexedDB.open('bankTransaction_db', 1);
 //emit if the database version changes
 request.onupgradeneeded = function(event) {
     //safe reference to database
-    const db = event.target.result;
+    let db = event.target.result;
     //create object store (table) called 'new_Banktransaction', set auto incrementing primary key
     db.createObjectStore('new_bankTransaction', {autoIncrement: true});
     //upon successful
@@ -16,7 +16,7 @@ request.onupgradeneeded = function(event) {
 
         //check if app is online, if yes run uploadBankTransaction() function to send all local db dta to api
         if (navigator.online) {
-            //uploadBankTransaction();
+            uploadBankTransaction();
         }
     };
 
@@ -25,7 +25,7 @@ request.onupgradeneeded = function(event) {
     };
 }
 
-//function to execute if we attempt to submit a new pizza
+//function to execute if we attempt to submit a new bankTransaction
 function saveRecord(record) {
     //open a new transaction with the database with read and write permissions
     const transaction = db.transaction(['new_bankTransaction'], 'readwrite');
@@ -48,7 +48,34 @@ function uploadBankTransaction() {
     //upon a successful .getall execution, run this
     getAll.onsuccess = function() {
         //if there was data in indexdbs store, send it to the api server
-        
+        if (getAll.result.length > 0) {
+            fetch('/api/transactions', {
+                method: 'POST',
+                body: JSON.stringify(getAll.result),
+                headers: {
+                    Accept: 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(serverResponse => {
+                if (serverResponse.message) {
+                    throw new Error(serverResponse);
+                }
+                //open one more transaction
+                const transaction = db.transaction(['new_bankTransaction'], 'readwrite');
+                //access the new_bankTransaction object store
+                const bankTransactionObjectStore = transaction.objectStore('new_bankTransaction');
+                bankTransactionObjectStore.clear();
 
+                alert ('All bank transactions have been submitted successfully!')
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        }
     }
 }
+
+//listen for app coming back online
+window.addEventListener('online', uploadBankTransaction);
