@@ -49,7 +49,7 @@ function uploadBankTransaction() {
     getAll.onsuccess = function() {
         //if there was data in indexdbs store, send it to the api server
         if (getAll.result.length > 0) {
-            fetch('/api/transactions', {
+            fetch('/api/transaction/bulk', {
                 method: 'POST',
                 body: JSON.stringify(getAll.result),
                 headers: {
