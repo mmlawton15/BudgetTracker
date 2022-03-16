@@ -44,4 +44,11 @@ function uploadBankTransaction() {
     const bankTransactionObjectStore = transaction.objectStore('new_bankTransaction');
     //get all recrods from store and set to a variable
     const getAll = bankTransactionObjectStore.getAll();
+
+    //upon a successful .getall execution, run this
+    getAll.onsuccess = function() {
+        //if there was data in indexdbs store, send it to the api server
+        
+
+    }
 }
