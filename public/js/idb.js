@@ -9,25 +9,26 @@ request.onupgradeneeded = function(event) {
     let db = event.target.result;
     //create object store (table) called 'new_Banktransaction', set auto incrementing primary key
     db.createObjectStore('new_bankTransaction', {autoIncrement: true});
-    //upon successful
-    request.onsuccess = function(event) {
-        //when db is successfully create with wits object store (from onupgradeneeded)
-        db = event.target.result;
-
-        //check if app is online, if yes run uploadBankTransaction() function to send all local db dta to api
-        if (navigator.online) {
-            uploadBankTransaction();
-        }
-    };
-
-    request.onerrer = function(event) {
-        console.log(event.target.errorCode);
-    };
 }
+//upon successful
+request.onsuccess = function(event) {
+    //when db is successfully create with wits object store (from onupgradeneeded)
+    db = event.target.result;
+
+    //check if app is online, if yes run uploadBankTransaction() function to send all local db dta to api
+    if (navigator.online) {
+        uploadBankTransaction();
+    }
+};
+
+request.onerror = function(event) {
+    console.log(event.target.errorCode);
+};
 
 //function to execute if we attempt to submit a new bankTransaction
 function saveRecord(record) {
     //open a new transaction with the database with read and write permissions
+    console.log('!!!!!!!!!!!!!',db)
     const transaction = db.transaction(['new_bankTransaction'], 'readwrite');
 
     //access the object store for new transaction
