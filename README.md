@@ -11,4 +11,6 @@ The point of this app is to allow users to add, delete and view transactions whe
 I built this app off of the start code provided. My first step was to create the offline persistence using IndexedDB. Next I configured the service workers to handle the offline functionality of holding onto the data/transactions. Thirdly, I converted it into a PWA that could be installed on your phone. Finally I deployed this application to Heroku.
 
 ## What does it look like and where can I find it?
-You can find this app on my github at the Repository or on Heroku.
+You can find this app on my github at the Repository (https://github.com/mmlawton15/challenge-nineteen-PWA-applesauce/tree/main) or on Heroku (https://git.heroku.com/powerful-forest-47276.git).
+
+![image](public/budgetTracker.png)
