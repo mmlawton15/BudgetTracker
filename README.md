@@ -7,6 +7,16 @@ This is our first challenge converting a pre-existing app into a Progressive Web
 ## What is the point?
 The point of this app is to allow users to add, delete and view transactions whether or not they are online. While offline, their transactions are held temporarily until they gain network access once again. From here, these transactions are loaded into the app.
 
+## Stack?
+Frontend:
+- HTML
+- CSS
+Backend:
+- Javascript
+- Chrome DevTools for measuring web application performance
+- Google Lighthouse for scoring app performance
+- PWA for creating a mobile application
+
 ## How did I build it?
 I built this app off of the start code provided. My first step was to create the offline persistence using IndexedDB. Next I configured the service workers to handle the offline functionality of holding onto the data/transactions. Thirdly, I converted it into a PWA that could be installed on your phone. Finally I deployed this application to Heroku.
 
